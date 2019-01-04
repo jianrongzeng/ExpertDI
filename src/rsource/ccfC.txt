@@ -1,0 +1,32 @@
+Computer Law and Security Reports
+EURASIP Journal on Information Security
+IET Information Security
+Information Management & Computer Security
+Information Security Technical Report
+International Journal of Information Security and Privacy
+International Journal of Information and Computer Security
+Security and Communication Networks
+ACM Conference on Security and Privacy in Wireless and Mobile Networks
+ACM Multimedia and Security Workshop
+ACM Symposium on Access Control Models and Technologies
+ACM Symposium on Information, Computer and Communications Security
+ACM Workshop on Digital Rights Management
+Applied Cryptography and Network Security
+AustralasiaConferenceonInformation SecurityandPrivacy
+Digital Forensic Research Workshop
+Financial Cryptography and Data Security
+Detection of Intrusions and Malware &Vulnerability Assessment
+IFIP International Information Security Conference
+IFIP WG 11.9 International Conference on Digital Forensics
+Information Security Conference
+International Conference on Information and Communications Security
+International Conference on Security and Privacy in Communication Networks
+New Security Paradigms Workshop
+RSA Conference, Cryptographers' Track
+Symposium On Usable Privacy and Security
+USENIX Workshop on Hot Topics in Security
+Selected Areas in Cryptography
+IEEE International Conference on Trust,Security and Privacy in Computing and Communications
+Passive and Active Measurement Conference
+Privacy Enhancing Technologies Symposium
+International Conference on Digital Forensics & Cyber Crime

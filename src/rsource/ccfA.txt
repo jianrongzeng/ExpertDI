@@ -1,0 +1,8 @@
+IEEE Transactions on Dependable and Secure Computing
+IEEE Transactions on Information Forensics and Security
+IEEE Transactions on Information Forensics and Security
+ACM Conference on Computer and Communications Security
+International Cryptology Conference
+European Cryptology Conference
+IEEE Symposium on Security and Privacy
+Usenix Security Symposium
