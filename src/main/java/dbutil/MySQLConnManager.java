@@ -3,8 +3,8 @@ package dbutil;
 import java.sql.*;
 
 public class MySQLConnManager {
-	public final static String DRIVER = "com.mysql.cj.jdbc.Driver"; // 数据库驱动  
-    public final static String URL = "jdbc:mysql://localhost:3306/expert?useSSL=false&rewriteBatchedStatements=true&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8";  //useUnicode=true&characterEncoding=UTF-8&
+    public final static String DRIVER = "com.mysql.jdbc.Driver"; // 数据库驱动
+    public final static String URL = "jdbc:mysql://10.1.48.212:3306/data?useSSL=false&rewriteBatchedStatements=true&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8";  //useUnicode=true&characterEncoding=UTF-8&
     public final static String DBUSER = "root";   // 数据库用户名  
     public final static String DBPASS = "123456"; // 数据库密码  
   

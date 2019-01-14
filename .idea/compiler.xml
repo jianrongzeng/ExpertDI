@@ -9,8 +9,5 @@
         <module name="ExpertDI" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="ExpertDI" target="1.7" />
-    </bytecodeTargetLevel>
   </component>
 </project>

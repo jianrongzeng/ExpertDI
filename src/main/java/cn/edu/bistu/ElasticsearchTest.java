@@ -32,25 +32,25 @@ public class ElasticsearchTest {
         // }
         // System.out.println(hits.getTotalHits());
 
-        QueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("unit", "大学"));
-        SearchResponse searchResponse = client.prepareSearch("expert").setTypes("t_basic_expert_information")
-                .setSize(100).setQuery(queryBuilder).setScroll(new TimeValue(10000)).execute()
-                .actionGet();
-        int page = (int) (searchResponse.getHits().getTotalHits() / 10);
-        for (int i = 0; i < page; i++) {
-            searchResponse = client.prepareSearchScroll(searchResponse.getScrollId())
-                    .setScroll(new TimeValue(10000)).execute()
-                    .actionGet();
-            scrollOutput(searchResponse);
-        }
-        System.out.println(searchResponse.getHits().totalHits());
-        //关闭客户端
-        client.close();
+        // QueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchAllQuery());
+        // SearchResponse searchResponse = client.prepareSearch("expert").setTypes("t_basic_expert_information")
+        //         .setSize(100).setQuery(queryBuilder).setScroll(new TimeValue(10000)).execute()
+        //         .actionGet();
+        // int page = (int) (searchResponse.getHits().getTotalHits() / 10);
+        // for (int i = 0; i < page; i++) {
+        //     searchResponse = client.prepareSearchScroll(searchResponse.getScrollId())
+        //             .setScroll(new TimeValue(10000)).execute()
+        //             .actionGet();
+        //     scrollOutput(searchResponse);
+        // }
+        // System.out.println(searchResponse.getHits().totalHits());
+        // //关闭客户端
+        // client.close();
     }
 
     private void scrollOutput(SearchResponse searchResponse) {
         for (SearchHit searchHit : searchResponse.getHits()) {
-            System.out.println(searchHit.getSource().get("unit"));
+            System.out.println(searchHit.getSource().get("name"));
         }
     }
 
