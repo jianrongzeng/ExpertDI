@@ -1,15 +1,11 @@
 package fuse;
 
-import dbutil.DBHelper;
-import dbutil.MySQLConnManager;
 import model.*;
 import org.jetbrains.annotations.Contract;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -138,9 +134,9 @@ public class ExpertFuser {
         finalExpertInformation.setProfession(basicInfo.getProfession());
         finalExpertInformation.setResearch(basicInfo.getResearch());
         finalExpertInformation.setLabel(basicInfo.getLabel());
-        finalExpertInformation.setCcf_a_num(finalExpertInformation.getCcf_a_num() + getCcfnum("ccfA"));
-        finalExpertInformation.setCcf_b_num(finalExpertInformation.getCcf_b_num() + getCcfnum("ccfB"));
-        finalExpertInformation.setCcf_c_num(finalExpertInformation.getCcf_c_num() + getCcfnum("ccfC"));
+        // finalExpertInformation.setCcf_a_num(finalExpertInformation.getCcf_a_num() + getCcfnum("ccfA"));
+        // finalExpertInformation.setCcf_b_num(finalExpertInformation.getCcf_b_num() + getCcfnum("ccfB"));
+        // finalExpertInformation.setCcf_c_num(finalExpertInformation.getCcf_c_num() + getCcfnum("ccfC"));
         // finalExpertInformation.setPatent_num();
         // finalExpertInformation.setCopyright_num();
         // finalExpertInformation.setNational_project_num();
@@ -165,20 +161,26 @@ public class ExpertFuser {
     public int getStudentNum() throws SQLException {
         int studentNum = 0;
         String id = basicInfo.getExpert_id();
-        Connection connection = MySQLConnManager.creatConnection();
+        // Connection connection = MySQLConnManager.creatConnection();
         String sql = "select count(*) where expert_id = ?";
         Object[] params = {basicInfo.getExpert_id()};
-        ResultSet resultSet = DBHelper.ExecuteQuery(connection, sql, params);
-        while (resultSet.next()) {
-            studentNum = resultSet.getInt(1);
-            break;
-        }
+        // ResultSet resultSet = MysqlDBHelper.ExecuteQuery(connection, sql, params);
+        // while (resultSet.next()) {
+        //     studentNum = resultSet.getInt(1);
+        //     break;
+        // }
         return studentNum;
     }
 
-    public int getCcfnum(String type) throws IOException {
+    /**
+     * @param type    CCF论文类别,一共分为"ccfA","ccfB","ccfC"三类
+     * @param journal 期刊名称
+     * @return 指定type类别的论文数量
+     * @throws IOException
+     */
+    public static int getCcfnum(String type, String journal) throws IOException {
         int num = 0;
-        String journal = paper.getJuornal_en();
+        // String journal = paper.getJuornal_en();
         String ccf;
 
         Hashtable<String, ArrayList<String>> ccfTable = getCCFList();
@@ -195,12 +197,12 @@ public class ExpertFuser {
         return num;
     }
 
-    public Hashtable<String, ArrayList<String>> getCCFList() throws IOException {
+    public static Hashtable<String, ArrayList<String>> getCCFList() throws IOException {
         Hashtable<String, ArrayList<String>> ccfTable = new Hashtable<>();
 
-        ArrayList<String> ccfAList = readFile("rsource\\ccfA.txt");
-        ArrayList<String> ccfBList = readFile("rsource\\ccfB.txt");
-        ArrayList<String> ccfCList = readFile("rsource\\ccfC.txt");
+        ArrayList<String> ccfAList = readFile("src/resource/ccfA.txt");
+        ArrayList<String> ccfBList = readFile("src/resource/ccfB.txt");
+        ArrayList<String> ccfCList = readFile("src/resource/ccfC.txt");
 
         ccfTable.put("ccfA", ccfAList);
         ccfTable.put("ccfB", ccfBList);
@@ -209,7 +211,7 @@ public class ExpertFuser {
         return ccfTable;
     }
 
-    public ArrayList<String> readFile(String filePath) throws IOException {
+    public static ArrayList<String> readFile(String filePath) throws IOException {
         ArrayList<String> list = new ArrayList<>();
         FileReader in = new FileReader(filePath);
         BufferedReader reader = new BufferedReader(in);
@@ -228,7 +230,7 @@ public class ExpertFuser {
      * @param str2
      * @return
      */
-    private static float getLevenshtein(String str1, String str2) {
+    public static float getLevenshtein(String str1, String str2) {
         //计算两个字符串的长度。
         int len1 = str1.length();
         int len2 = str2.length();
@@ -255,12 +257,12 @@ public class ExpertFuser {
                         dif[i - 1][j] + 1);
             }
         }
-        System.out.println("字符串\"" + str1 + "\"与\"" + str2 + "\"的比较");
+        // System.out.println("字符串\"" + str1 + "\"与\"" + str2 + "\"的比较");
         //取数组右下角的值，同样不同位置代表不同字符串的比较
-        System.out.println("差异步骤：" + dif[len1][len2]);
+        // System.out.println("差异步骤：" + dif[len1][len2]);
         //计算相似度
         float similarity = 1 - (float) dif[len1][len2] / Math.max(str1.length(), str2.length());
-        System.out.println("相似度：" + similarity);
+        // System.out.println("相似度：" + similarity);
         return similarity;
     }
 
@@ -279,8 +281,9 @@ public class ExpertFuser {
         return min;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // System.out.println(getLevenshtein("计算机科学", "计算机科技"));
-        System.out.println(System.currentTimeMillis());
+        // System.out.println(System.currentTimeMillis());
+        getCCFList();
     }
 }

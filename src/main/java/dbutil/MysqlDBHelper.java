@@ -1,12 +1,8 @@
 package dbutil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
-public class DBHelper {
+public class MysqlDBHelper {
     /**
      * 执行不带参数的数据库查询操作
      *
