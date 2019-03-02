@@ -1,8 +1,10 @@
 package fuse;
 
+import cn.bistu.util.NamePinYin;
 import dbutil.ElasticsearchClientManager;
 import dbutil.MySQLConnManager;
 import dbutil.MysqlDBHelper;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.unit.TimeValue;
@@ -119,14 +121,20 @@ public class SamePersonGetter {
         return influenceFactor;
     }
 
-    public static void main(String[] args) throws InterruptedException, SQLException, IOException {
+    public static void main(String[] args) throws InterruptedException, SQLException, IOException, BadHanyuPinyinOutputFormatCombination {
         nameList = SamePersonGetter.getExpertList();
         for (Map<String, Object> map : nameList) {
 
             // 融合专家信息
             map = getSameExpertInfo(map);
             // 融合后的专家信息更新到mysql数据库中
-            updateFinalExpertInfo(map);
+            updateExpertInfo(map);
+
+            // String updateSqlFormat = "update t_final_expert_information set national_project_num = %d where name_ch " +
+            //         "= \"%s\"";
+            // String name = map.get("name").toString().replace("\"", "");
+            // String updateSql = String.format(updateSqlFormat, map.get("nationalProjectNum"), name);
+            // MysqlDBHelper.ExecuteUpdate(mysqlConnection1, updateSql);
         }
     }
 
@@ -135,7 +143,20 @@ public class SamePersonGetter {
      *
      * @param map
      */
-    public static void updateFinalExpertInfo(Map<String, Object> map) {
+    public static void updateExpertInfo(Map<String, Object> map) {
+        int expert_id = updateFinalExpInfo(map);
+        if (map.get("paper_id") != null) {
+            updateAward(map, expert_id);
+        }
+    }
+
+    /**
+     * 更新表t_final_expert_information
+     *
+     * @param map
+     * @return 专家id
+     */
+    public static int updateFinalExpInfo(Map<String, Object> map) {
         // 构造mysql插入语句
         String sqlFormat = "insert into t_final_expert_information(expert_id, name_ch, name_en, mail, title, " +
                 "degree, mobile_phone, office_phone, profession, research, label, ccf_a_num, ccf_b_num, " +
@@ -196,8 +217,8 @@ public class SamePersonGetter {
         int copyright_num = (String) map.get("copyright_num") != null ?
                 Integer.parseInt((String) map.get("copyright_num")) : 0;
 
-        int national_project_num = (String) map.get("national_project_num") != null ?
-                Integer.parseInt((String) map.get("national_project_num")) : 0;
+        int national_project_num = map.get("nationalProjectNum") != null ?
+                Integer.parseInt(map.get("nationalProjectNum").toString()) : 0;
 
         String social_service = (String) map.get("social_service");
         social_service = social_service != null ? social_service.replace("\"", "") : social_service;
@@ -256,6 +277,22 @@ public class SamePersonGetter {
                 birth_date, nationality, carrer, volk, birth_place, achievement, origan, add_date,
                 provience_project_num, paperLevel1Num, paperLevel2Num, paperLevel3Num);
         // 执行插入操作
+        // MysqlDBHelper.ExecuteUpdate(mysqlConnection1, sql);
+        return expert_id;
+    }
+
+    /**
+     * 更新表t_expert_award
+     *
+     * @param map
+     * @param expert_id
+     */
+    public static void updateAward(Map<String, Object> map, int expert_id) {
+        // 构造mysql插入语句
+        String sqlFormat = "insert into t_expert_award (expert_id, paper_id, add_date) values (\"%s\", \"%s\", \"%s\")";
+        String sql = String.format(sqlFormat, expert_id, map.get("paper_id"), System.currentTimeMillis());
+        System.out.println(sql);
+        // 执行插入语句
         MysqlDBHelper.ExecuteUpdate(mysqlConnection1, sql);
     }
 
@@ -267,21 +304,24 @@ public class SamePersonGetter {
      * @throws SQLException
      * @throws IOException
      */
-    private static Map<String, Object> getSameExpertInfo(Map<String, Object> map) throws SQLException, IOException {
+    private static Map<String, Object> getSameExpertInfo(Map<String, Object> map) throws SQLException, IOException, BadHanyuPinyinOutputFormatCombination {
         // 获取es中专家的姓名和单位名称，姓名用来查找同名专家，单位名称用来消歧。
         String expertName = (String) map.get("name");
-        String expertUnit = (String) map.get("unit") == null ? "" : (String) map.get("unit");
+        String expertUnit = map.get("unit") == null ? "" : (String) map.get("unit");
 
-        // 查询同名专家的论文记录
+        // 查询同名专家的中文论文记录
         ResultSet paperResultSet = getPaper(mysqlConnection2, expertName);
         int ccfANum = 0, ccfBNum = 0, ccfCNum = 0, paper_level_1_num = 0, paper_level_2_num = 0,
                 paper_level_3_num = 0, citeSum = 0;
+        String paperId = "";
         while (paperResultSet.next()) {
             // 获取论文记录里的专家单位
             String paperUnit = paperResultSet.getString("author_unit_ch");
+            String name = "";
             // 进行消歧，判断是否是同一个专家
             if (paperUnit.contains(expertUnit) || ExpertFuser.getLevenshtein(expertUnit, paperUnit) >= 0.6) {
                 // System.out.println("论文单位相似度：" + ExpertFuser.getLevenshtein(expertUnit, paperUnit));
+
                 // 获取论文发表的期刊名称
                 String cjournal = paperResultSet.getString("cjournal");
                 // 查询该期刊的影响因子，按影响因子大小分为1、2、3等级。
@@ -293,6 +333,10 @@ public class SamePersonGetter {
                 } else {
                     paper_level_3_num++;
                 }
+                // 获取当前论文记录的id
+                paperId += paperResultSet.getString("paper_id") + "####";
+                // System.out.println(paperResultSet.getString("paper_id"));
+
                 // 统计该专家的论文被引总数
                 citeSum += paperResultSet.getInt("cite_num");
 
@@ -303,7 +347,31 @@ public class SamePersonGetter {
                 ccfCNum += ExpertFuser.getCcfnum("ccfC", ejournal);
             }
         }
+
+        // 查询同名专家的英文论文记录
+        String nameEn = toUpCase(NamePinYin.getUpEname(expertName));
+        String sql = "select * from paper_en where author_en like \"%" + nameEn + "%\"";
+        ResultSet enPaperSet = MysqlDBHelper.ExecuteQuery(mysqlConnection2, sql);
+        while (enPaperSet.next()) {
+            String enPaperUnit = enPaperSet.getString("author_unit_en");
+            // 是同一专家
+            if (enPaperUnit.contains(expertUnit)) {
+                paperId += enPaperSet.getString("paper_id") + "####";
+                citeSum += Integer.parseInt(enPaperSet.getString("cite_num"));
+                String publishType = enPaperSet.getString("publish_type");
+                if (publishType.contains("A")) {
+                    ccfANum++;
+                } else if (publishType.contains("B")) {
+                    ccfBNum++;
+                } else if (publishType.contains("C")) {
+                    ccfCNum++;
+                }
+            }
+        }
         // 添加得到的新的统计信息
+        if (paperId.length() > 0) {
+            map.put("paper_id", paperId);
+        }
         map.put("paper_level_1_num", paper_level_1_num);
         map.put("paper_level_2_num", paper_level_2_num);
         map.put("paper_level_3_num", paper_level_3_num);
@@ -329,6 +397,16 @@ public class SamePersonGetter {
         // 添加得到的新的统计信息
         map.put("nationalProjectNum", foundNum);
         return map;
+    }
+
+
+    // 中文拼音首字母转大写
+    private static String toUpCase(String str) {
+        StringBuffer newstr = new StringBuffer();
+        newstr.append((str.substring(0, 1)).toUpperCase()).append(
+                str.substring(1, str.length()));
+
+        return newstr.toString();
     }
 
 }
