@@ -13,6 +13,11 @@ public class HiveConnManager {
     public static String user = "root";
     public static String password = "123456";
 
+    /**
+     * 创建Hive连接
+     * @return
+     * @throws SQLException
+     */
     public static Connection createConnection() throws SQLException {
         try {
             Class.forName(driverName);

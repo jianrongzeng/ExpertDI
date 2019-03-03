@@ -18,6 +18,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -84,7 +85,7 @@ public class SamePersonGetter {
      */
     public static ResultSet getPaper(Connection connection, String name) {
         // 在String类的format函数中，“%”才是转义符，并且在sql语句中，参数部分需带上英文引号""。
-        String sqlFormat = "select * from data.papers where author_ch like \"%s %%\" or author_ch like \"%% %s %%\" " +
+        String sqlFormat = "select * from data.papers1 where author_ch like \"%s %%\" or author_ch like \"%% %s %%\" " +
                 "or author_ch like \"%% %s\"";
         String sql = String.format(sqlFormat, name, name, name);
         ResultSet resultSet = MysqlDBHelper.ExecuteQuery(connection, sql);
@@ -122,20 +123,25 @@ public class SamePersonGetter {
     }
 
     public static void main(String[] args) throws InterruptedException, SQLException, IOException, BadHanyuPinyinOutputFormatCombination {
-        nameList = SamePersonGetter.getExpertList();
-        for (Map<String, Object> map : nameList) {
+        // nameList = SamePersonGetter.getExpertList();
+        // for (Map<String, Object> map : nameList) {
+        //
+        //     // 融合专家信息
+        //     map = getSameExpertInfo(map);
+        //     // 融合后的专家信息更新到mysql数据库中
+        //     updateExpertInfo(map);
+        //
+        //     // String updateSqlFormat = "update t_final_expert_information set national_project_num = %d where name_ch " +
+        //     //         "= \"%s\"";
+        //     // String name = map.get("name").toString().replace("\"", "");
+        //     // String updateSql = String.format(updateSqlFormat, map.get("nationalProjectNum"), name);
+        //     // MysqlDBHelper.ExecuteUpdate(mysqlConnection1, updateSql);
+        // }
 
-            // 融合专家信息
-            map = getSameExpertInfo(map);
-            // 融合后的专家信息更新到mysql数据库中
-            updateExpertInfo(map);
-
-            // String updateSqlFormat = "update t_final_expert_information set national_project_num = %d where name_ch " +
-            //         "= \"%s\"";
-            // String name = map.get("name").toString().replace("\"", "");
-            // String updateSql = String.format(updateSqlFormat, map.get("nationalProjectNum"), name);
-            // MysqlDBHelper.ExecuteUpdate(mysqlConnection1, updateSql);
-        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("name", "张仰森");
+        map.put("unit", "北京信息科技大学");
+        getSameExpertInfo(map);
     }
 
     /**
@@ -161,7 +167,7 @@ public class SamePersonGetter {
         String sqlFormat = "insert into t_final_expert_information(expert_id, name_ch, name_en, mail, title, " +
                 "degree, mobile_phone, office_phone, profession, research, label, ccf_a_num, ccf_b_num, " +
                 "ccf_c_num, patent_num, copyright_num, national_project_num, social_service, cite_sum, " +
-                "doctor_num, master_num, graduated, sex, birth_date, nationality, carrer, volk, birth_place, " +
+                "doctor_num, master_num, graduated, sex, birth_date, nationality, carrer, people, birth_place, " +
                 "achievement, origan, add_date, province_project_num, paper_level_1_num, paper_level_2_num, " +
                 "paper_level_3_num) VALUES " +
                 "(%d, \"%s\", \"%s\", \"%s\", \"%s\", " +
@@ -247,8 +253,8 @@ public class SamePersonGetter {
         String carrer = (String) map.get("carrer");
         carrer = carrer != null ? carrer.replace("\"", "") : carrer;
 
-        String volk = (String) map.get("ethnic");
-        volk = volk != null ? volk.replace("\"", "") : volk;
+        String people = (String) map.get("ethnic");
+        people = people != null ? people.replace("\"", "") : people;
 
         String birth_place = (String) map.get("birth_place");
         birth_place = birth_place != null ? birth_place.replace("\"", "") : birth_place;
@@ -274,7 +280,7 @@ public class SamePersonGetter {
         String sql = String.format(sqlFormat, expert_id, name_ch, name_en, mail, title, degree, mobile_phone,
                 office_phone, profession, research, label, ccf_a_num, ccf_b_num, ccf_c_num, patent_num,
                 copyright_num, national_project_num, social_service, cite_sum, doctor_num, master_num, graduated, sex,
-                birth_date, nationality, carrer, volk, birth_place, achievement, origan, add_date,
+                birth_date, nationality, carrer, people, birth_place, achievement, origan, add_date,
                 provience_project_num, paperLevel1Num, paperLevel2Num, paperLevel3Num);
         // 执行插入操作
         // MysqlDBHelper.ExecuteUpdate(mysqlConnection1, sql);
@@ -291,9 +297,9 @@ public class SamePersonGetter {
         // 构造mysql插入语句
         String sqlFormat = "insert into t_expert_award (expert_id, paper_id, add_date) values (\"%s\", \"%s\", \"%s\")";
         String sql = String.format(sqlFormat, expert_id, map.get("paper_id"), System.currentTimeMillis());
-        System.out.println(sql);
+        // System.out.println(sql);
         // 执行插入语句
-        MysqlDBHelper.ExecuteUpdate(mysqlConnection1, sql);
+        // MysqlDBHelper.ExecuteUpdate(mysqlConnection1, sql);
     }
 
     /**
