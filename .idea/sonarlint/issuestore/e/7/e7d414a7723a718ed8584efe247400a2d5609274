@@ -1,0 +1,61 @@
+
+qsquid:S00117†"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(óÃ¸8ªÍ™‘-
+vsquid:S3776œ"RRefactor this method to reduce its Cognitive Complexity from 30 to the 15 allowed.(ò‚ğ–ıÿÿÿÿ8ªÍ™‘-
+@squid:S14814")Remove this unused "name" local variable.(Ê§…ñ
+Isquid:S1659¶"%Declare "ccfCNum" on a separate line.(¥Ì¡úÿÿÿÿ8ì¥Î˜‘-
+€"squid:ClassVariableVisibilityCheck!"TMake nameList a static final constant or non-public and provide accessors if needed.(§Ë
+Dsquid:S1659·"%Declare "citeSum" on a separate line.(ÈÇñˆ8ªÍ™‘-
+gsquid:CommentedOutCodeLine@"<This block of commented-out lines of code should be removed.(æéş¥ıÿÿÿÿ
+?squid:S1148)"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
+qsquid:S00117„"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶òÌ·8ªÍ™‘-
+"squid:ClassVariableVisibilityCheck"\Make mysqlConnection2 a static final constant or non-public and provide accessors if needed.(‰±†Õúÿÿÿÿ
+psquid:S00117â"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”¼‡r8ªÍ™‘-
+Lsquid:S1751u"5Remove this "break" statement or make it conditional.(›ûä·
+isquid:S1192Ê"JDefine a constant instead of duplicating this literal "ccf_a_num" 3 times.(õÏáó8ªÍ™‘-
+vsquid:S00117«"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±çÉûÿÿÿÿ8¤ÿ˜‘-
+jsquid:CommentedOutCodeLine•"<This block of commented-out lines of code should be removed.(œÙëÎ8ªÍ™‘-
+Csquid:S1444!".Make this "public static nameList" field final(§Ë
+vsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ØÛı¤úÿÿÿÿ8ªÍ™‘-
+jsquid:CommentedOutCodeLineÎ"<This block of commented-out lines of code should be removed.(ÓáÖì8°¾‹¿‘-
+­%squid:RedundantThrowsDeclarationCheck3"wRemove the declaration of thrown exception 'java.lang.InterruptedException', as it cannot be thrown from method's body.(¯‰±íúÿÿÿÿ
+qsquid:S00117Ó"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›êñ8ªÍ™‘-
+wsquid:S1192Ù"SDefine a constant instead of duplicating this literal "nationalProjectNum" 3 times.(†°ªÏıÿÿÿÿ8ªÍ™‘-
+vsquid:S00117Ü"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Üş´üÿÿÿÿ8ªÍ™‘-
+qsquid:S00117¯"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÎƒÓ8ªÍ™‘-
+vsquid:S00117¶"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥Ì¡úÿÿÿÿ8ì¥Î˜‘-
+vsquid:S00117Ğ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(“Ó·†üÿÿÿÿ8ªÍ™‘-
+}squid:S1488X"aImmediately return this expression instead of assigning it to the temporary variable "resultSet".(¸îàÃúÿÿÿÿ
+vsquid:S00117¶"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥Ì¡úÿÿÿÿ8ªÍ™‘-
+Nsquid:S1659·"/Declare "paper_level_3_num" on a separate line.(ÈÇñˆ8ªÍ™‘-
+qsquid:S00117î"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨¾¥½8ªÍ™‘-
+[squid:S1854"7Remove this useless assignment to local variable "sql".(ùö¢ùÿÿÿÿ8¤ÿ˜‘-
+Ssquid:S1659¶"/Declare "paper_level_2_num" on a separate line.(¥Ì¡úÿÿÿÿ8ªÍ™‘-
+jsquid:CommentedOutCodeLine„"<This block of commented-out lines of code should be removed.(…ÀÜæ8¹ó™‘-
+Isquid:S1659¶"%Declare "ccfBNum" on a separate line.(¥Ì¡úÿÿÿÿ8ì¥Î˜‘-
+Rsquid:S1444"6Make this "public static mysqlConnection1" field final(öÍë´ùÿÿÿÿ
+qsquid:S00117¬"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Œµ»ü8ªÍ™‘-
+osquid:CommentedOutCodeLine¿"<This block of commented-out lines of code should be removed.(ÄÑÓ¡şÿÿÿÿ8ªÍ™‘-
+hsquid:S1192’"IDefine a constant instead of duplicating this literal "paper_id" 4 times.(·®Ÿ8°¾‹¿‘-
+;squid:S1643Í"Use a StringBuilder instead.(³Œƒˆ8°¾‹¿‘-
+"squid:ClassVariableVisibilityCheck"\Make mysqlConnection1 a static final constant or non-public and provide accessors if needed.(öÍë´ùÿÿÿÿ
+Hsquid:S1481¼")Remove this unused "name" local variable.(¹·ş¸8æ¨Ô¡‘-
+qsquid:S00117¾"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘‰ßû8ªÍ™‘-
+vsquid:S00117ú"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡–×ˆúÿÿÿÿ8ªÍ™‘-
+qsquid:S00117Ê"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(õÏáó8ªÍ™‘-
+qsquid:S00117·"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÈÇñˆ8ªÍ™‘-
+qsquid:S00117Í"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›¬®×8ªÍ™‘-
+Ssquid:S1659¶"/Declare "paper_level_1_num" on a separate line.(¥Ì¡úÿÿÿÿ8ªÍ™‘-
+Rsquid:S1444"6Make this "public static mysqlConnection2" field final(‰±†Õúÿÿÿÿ
+}squid:S1488c"aImmediately return this expression instead of assigning it to the temporary variable "resultSet".(¸îàÃúÿÿÿÿ
+Lsquid:S1481"(Remove this unused "sql" local variable.(ùö¢ùÿÿÿÿ8ªÍ™‘-
+vsquid:S00117»"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ‡Í¿ÿÿÿÿÿ8ªÍ™‘-
+vsquid:S00117Ù"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†°ªÏıÿÿÿÿ8ªÍ™‘-
+vsquid:S00117ß"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æÃÈëúÿÿÿÿ8ªÍ™‘-
+W
+squid:S106¢"9Replace this use of System.out or System.err by a logger.(Â–‘ö8æëƒ¿‘-
+vsquid:S00117Ö"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹‹´ıÿÿÿÿ8ªÍ™‘-
+qsquid:S00117å"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”¿ï´8ªÍ™‘-
+ˆsquid:S1319!"sThe type of the "nameList" object should be an interface such as "List" rather than the implementation "ArrayList".(§Ë
+vsquid:S00117‘"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥ÇÛéûÿÿÿÿ8ªÍ™‘-
+jsquid:CommentedOutCodeLineñ"<This block of commented-out lines of code should be removed.(Ì“Ó‘8íŞÁÀ‘-
+2squid:S2386!"Make this member "protected".(§Ë

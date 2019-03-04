@@ -1,6 +1,5 @@
 package fuse;
 
-import cn.bistu.util.NamePinYin;
 import dbutil.ElasticsearchClientManager;
 import dbutil.MySQLConnManager;
 import dbutil.MysqlDBHelper;
@@ -33,7 +32,7 @@ public class SamePersonGetter {
     // 论文表papers
     public static Connection mysqlConnection2 = MySQLConnManager.creatConnectionByIPandDB("10.1.48.212", "data");
     // 所有专家名单
-    public static ArrayList<Map> nameList = new ArrayList<>();
+    public static ArrayList<Map<String, Object>> nameList = new ArrayList<>();
     // es连接客户端
     private static TransportClient transportClient;
 
@@ -51,7 +50,7 @@ public class SamePersonGetter {
      * @return
      * @throws InterruptedException
      */
-    private static ArrayList<Map> getExpertList() throws InterruptedException {
+    private static ArrayList<Map<String, Object>> getExpertList() throws InterruptedException {
         String name;
         QueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchAllQuery());
         SearchResponse searchResponse = transportClient.prepareSearch("expert")
@@ -59,14 +58,14 @@ public class SamePersonGetter {
                 .setScroll(new TimeValue(10000))
                 .execute().actionGet();
         int page = (int) (searchResponse.getHits().getTotalHits() / 10);
-        ArrayList<Map> list = new ArrayList();
+        ArrayList<Map<String, Object>> list = new ArrayList();
         for (int i = 0; i < page; i++) {
             searchResponse = transportClient.prepareSearchScroll(searchResponse.getScrollId())
                     .setScroll(new TimeValue(10000)).execute()
                     .actionGet();
             // scrollOutput(searchResponse);
             for (SearchHit searchHit : searchResponse.getHits()) {
-                Map map = searchHit.getSource();
+                Map<String, Object> map = searchHit.getSource();
                 list.add(map);
             }
 
@@ -83,7 +82,7 @@ public class SamePersonGetter {
      * @param name       专家姓名
      * @return ResultSet类的专家论文结果集
      */
-    public static ResultSet getPaper(Connection connection, String name) {
+    public static ResultSet getPaperSet(Connection connection, String name) {
         // 在String类的format函数中，“%”才是转义符，并且在sql语句中，参数部分需带上英文引号""。
         String sqlFormat = "select * from data.papers1 where author_ch like \"%s %%\" or author_ch like \"%% %s %%\" " +
                 "or author_ch like \"%% %s\"";
@@ -123,25 +122,16 @@ public class SamePersonGetter {
     }
 
     public static void main(String[] args) throws InterruptedException, SQLException, IOException, BadHanyuPinyinOutputFormatCombination {
-        // nameList = SamePersonGetter.getExpertList();
-        // for (Map<String, Object> map : nameList) {
-        //
-        //     // 融合专家信息
-        //     map = getSameExpertInfo(map);
-        //     // 融合后的专家信息更新到mysql数据库中
-        //     updateExpertInfo(map);
-        //
-        //     // String updateSqlFormat = "update t_final_expert_information set national_project_num = %d where name_ch " +
-        //     //         "= \"%s\"";
-        //     // String name = map.get("name").toString().replace("\"", "");
-        //     // String updateSql = String.format(updateSqlFormat, map.get("nationalProjectNum"), name);
-        //     // MysqlDBHelper.ExecuteUpdate(mysqlConnection1, updateSql);
-        // }
+        nameList = SamePersonGetter.getExpertList();
+        for (Map<String, Object> map : nameList) {
 
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("name", "张仰森");
-        map.put("unit", "北京信息科技大学");
-        getSameExpertInfo(map);
+            // 融合专家信息
+            map = getSameExpertInfo(map);
+            // 融合后的专家信息更新到mysql数据库中
+            updateExpertInfo(map);
+
+        }
+
     }
 
     /**
@@ -271,11 +261,11 @@ public class SamePersonGetter {
         int provience_project_num = map.get("provience_project_num") != null ?
                 Integer.parseInt((String) map.get("provience_project_num")) : 0;
 
-        int paperLevel1Num = (int) map.get("paper_level_1_num");
+        int paperLevel1Num = Integer.parseInt((String) map.get("paper_level_1_num"));
 
-        int paperLevel2Num = (int) map.get("paper_level_2_num");
+        int paperLevel2Num = Integer.parseInt((String) map.get("paper_level_2_num"));
 
-        int paperLevel3Num = (int) map.get("paper_level_3_num");
+        int paperLevel3Num = Integer.parseInt((String) map.get("paper_level_3_num"));
 
         String sql = String.format(sqlFormat, expert_id, name_ch, name_en, mail, title, degree, mobile_phone,
                 office_phone, profession, research, label, ccf_a_num, ccf_b_num, ccf_c_num, patent_num,
@@ -310,82 +300,26 @@ public class SamePersonGetter {
      * @throws SQLException
      * @throws IOException
      */
-    private static Map<String, Object> getSameExpertInfo(Map<String, Object> map) throws SQLException, IOException, BadHanyuPinyinOutputFormatCombination {
+    private static Map<String, Object> getSameExpertInfo(Map<String, Object> map) throws SQLException, IOException,
+            BadHanyuPinyinOutputFormatCombination {
         // 获取es中专家的姓名和单位名称，姓名用来查找同名专家，单位名称用来消歧。
+        String expertId = (String) map.get("expert_id");
         String expertName = (String) map.get("name");
         String expertUnit = map.get("unit") == null ? "" : (String) map.get("unit");
 
+        UpdateExpertAward.updatePatentId(expertId, expertName, expertUnit, mysqlConnection1);
+
         // 查询同名专家的中文论文记录
-        ResultSet paperResultSet = getPaper(mysqlConnection2, expertName);
-        int ccfANum = 0, ccfBNum = 0, ccfCNum = 0, paper_level_1_num = 0, paper_level_2_num = 0,
-                paper_level_3_num = 0, citeSum = 0;
-        String paperId = "";
-        while (paperResultSet.next()) {
-            // 获取论文记录里的专家单位
-            String paperUnit = paperResultSet.getString("author_unit_ch");
-            String name = "";
-            // 进行消歧，判断是否是同一个专家
-            if (paperUnit.contains(expertUnit) || ExpertFuser.getLevenshtein(expertUnit, paperUnit) >= 0.6) {
-                // System.out.println("论文单位相似度：" + ExpertFuser.getLevenshtein(expertUnit, paperUnit));
+        HashMap<String, String> info = getPaperInfo(expertName, expertUnit);
+        map.putAll(info);
 
-                // 获取论文发表的期刊名称
-                String cjournal = paperResultSet.getString("cjournal");
-                // 查询该期刊的影响因子，按影响因子大小分为1、2、3等级。
-                float influenceFactor = getInfluenceFactorByJournalName(cjournal);
-                if (influenceFactor >= 2) {
-                    paper_level_1_num++;
-                } else if (influenceFactor >= 1) {
-                    paper_level_2_num++;
-                } else {
-                    paper_level_3_num++;
-                }
-                // 获取当前论文记录的id
-                paperId += paperResultSet.getString("paper_id") + "####";
-                // System.out.println(paperResultSet.getString("paper_id"));
+        int foundNum = getFoundNum(expertName, expertUnit);
+        map.put("nationalProjectNum", foundNum);
 
-                // 统计该专家的论文被引总数
-                citeSum += paperResultSet.getInt("cite_num");
+        return map;
+    }
 
-                // 获取期刊的英文名称，统计该专家ccfA、B、C三类论文的数量
-                String ejournal = paperResultSet.getString("ejournal");
-                ccfANum += ExpertFuser.getCcfnum("ccfA", ejournal);
-                ccfBNum += ExpertFuser.getCcfnum("ccfB", ejournal);
-                ccfCNum += ExpertFuser.getCcfnum("ccfC", ejournal);
-            }
-        }
-
-        // 查询同名专家的英文论文记录
-        String nameEn = toUpCase(NamePinYin.getUpEname(expertName));
-        String sql = "select * from paper_en where author_en like \"%" + nameEn + "%\"";
-        ResultSet enPaperSet = MysqlDBHelper.ExecuteQuery(mysqlConnection2, sql);
-        while (enPaperSet.next()) {
-            String enPaperUnit = enPaperSet.getString("author_unit_en");
-            // 是同一专家
-            if (enPaperUnit.contains(expertUnit)) {
-                paperId += enPaperSet.getString("paper_id") + "####";
-                citeSum += Integer.parseInt(enPaperSet.getString("cite_num"));
-                String publishType = enPaperSet.getString("publish_type");
-                if (publishType.contains("A")) {
-                    ccfANum++;
-                } else if (publishType.contains("B")) {
-                    ccfBNum++;
-                } else if (publishType.contains("C")) {
-                    ccfCNum++;
-                }
-            }
-        }
-        // 添加得到的新的统计信息
-        if (paperId.length() > 0) {
-            map.put("paper_id", paperId);
-        }
-        map.put("paper_level_1_num", paper_level_1_num);
-        map.put("paper_level_2_num", paper_level_2_num);
-        map.put("paper_level_3_num", paper_level_3_num);
-        map.put("citeSum", citeSum);
-        map.put("ccfANum", ccfANum);
-        map.put("ccfBNum", ccfBNum);
-        map.put("ccfCNum", ccfCNum);
-
+    private static int getFoundNum(String expertName, String expertUnit) throws SQLException {
         int foundNum = 0;
         // 查询包含该专家姓名的基金记录
         ResultSet foundationResultSet = getFoundation(mysqlConnection1, expertName);
@@ -400,9 +334,58 @@ public class SamePersonGetter {
                 foundNum++;
             }
         }
-        // 添加得到的新的统计信息
-        map.put("nationalProjectNum", foundNum);
-        return map;
+        return foundNum;
+    }
+
+    private static HashMap<String, String> getPaperInfo(String expertName, String expertUnit) throws SQLException, IOException {
+        HashMap<String, String> info = new HashMap<String, String>();
+
+        ResultSet paperSet = getPaperSet(mysqlConnection2, expertName);
+        int ccfANum = 0, ccfBNum = 0, ccfCNum = 0, paper_level_1_num = 0, paper_level_2_num = 0,
+                paper_level_3_num = 0, citeSum = 0;
+        String paperId = "";
+        while (paperSet.next()) {
+            // 获取论文记录里的专家单位
+            String paperUnit = paperSet.getString("author_unit_ch");
+            String name = "";
+            // 进行消歧，判断是否是同一个专家
+            if (paperUnit.contains(expertUnit) || ExpertFuser.getLevenshtein(expertUnit, paperUnit) >= 0.6) {
+                // System.out.println("论文单位相似度：" + ExpertFuser.getLevenshtein(expertUnit, paperUnit));
+
+                // 获取论文发表的期刊名称
+                String cjournal = paperSet.getString("cjournal");
+                // 查询该期刊的影响因子，按影响因子大小分为1、2、3等级。
+                float influenceFactor = getInfluenceFactorByJournalName(cjournal);
+                if (influenceFactor >= 2) {
+                    paper_level_1_num++;
+                } else if (influenceFactor >= 1) {
+                    paper_level_2_num++;
+                } else {
+                    paper_level_3_num++;
+                }
+                // 获取当前论文记录的id
+                paperId += paperSet.getString("paper_id") + "####";
+
+                // 统计该专家的论文被引总数
+                citeSum += paperSet.getInt("cite_num");
+
+                // 获取期刊的英文名称，统计该专家ccfA、B、C三类论文的数量
+                String ejournal = paperSet.getString("ejournal");
+                ccfANum += ExpertFuser.getCcfnum("ccfA", ejournal);
+                ccfBNum += ExpertFuser.getCcfnum("ccfB", ejournal);
+                ccfCNum += ExpertFuser.getCcfnum("ccfC", ejournal);
+            }
+        }
+        info.put("ccfANum", String.valueOf(ccfANum));
+        info.put("ccfBNum", String.valueOf(ccfBNum));
+        info.put("ccfCNum", String.valueOf(ccfCNum));
+        info.put("paper_level_1_num", String.valueOf(paper_level_1_num));
+        info.put("paper_level_2_num", String.valueOf(paper_level_2_num));
+        info.put("paper_level_3_num", String.valueOf(paper_level_3_num));
+        info.put("citeSum", String.valueOf(citeSum));
+        info.put("paperId", paperId);
+
+        return info;
     }
 
 

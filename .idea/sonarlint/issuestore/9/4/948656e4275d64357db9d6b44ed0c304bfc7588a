@@ -1,0 +1,14 @@
+
+[squid:UnusedPrivateMethod3"1Remove this unused private "scrollOutput" method.(øŠ½ëøÿÿÿÿ
+jsquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(¶¿Í
+jsquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(ä¤½­
+lsquid:S2095"UUse try-with-resources or close this "PreBuiltTransportClient" in a "finally" clause.(ö¢ë¡
+bsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(ê›ù®
+gsquid:CommentedOutCodeLine#"<This block of commented-out lines of code should be removed.(‡öüÿÿÿÿÿ
+bsquid:CommentedOutCodeLine&"<This block of commented-out lines of code should be removed.(‰ªÄÇ
+bsquid:CommentedOutCodeLine+"<This block of commented-out lines of code should be removed.(‰ªÄÇ
+gsquid:CommentedOutCodeLine0"<This block of commented-out lines of code should be removed.(¤ÖÁ¯ûÿÿÿÿ
+N
+squid:S1065"9Replace this use of System.out or System.err by a logger.(ÃÙçY
+Bsquid:S1481"+Remove this unused "client" local variable.(ö¢ë¡
+Qsquid:S1854":Remove this useless assignment to local variable "client".(ö¢ë¡

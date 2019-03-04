@@ -1,0 +1,63 @@
+
+œ%squid:RedundantThrowsDeclarationChecko"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(Éâˆ
+ %squid:RedundantThrowsDeclarationCheck¡"nRemove the declaration of thrown exception 'java.sql.SQLException', as it cannot be thrown from method's body.(ŒöÍ
+<squid:S1659q"%Declare "paperId" on a separate line.(Ë¼»·
+;squid:S1659q"$Declare "fundId" on a separate line.(Ë¼»·
+dsquid:S1192Y"HDefine a constant instead of duplicating this literal "paperId" 3 times.(íˆ€Äüÿÿÿÿ
+`squid:S1192X"IDefine a constant instead of duplicating this literal "expertId" 4 times.(–İõâ
+^squid:S1192e"GDefine a constant instead of duplicating this literal "fundId" 3 times.(éá´Û
+Osquid:S1444"3Make this "public static keywordWeight" field final(íØº¦şÿÿÿÿ
+Gsquid:S1444"0Make this "public static unitWeight" field final(½ıò
+Vsquid:S1444":Make this "public static thresholdExpertPaper" field final(çÆïòûÿÿÿÿ
+Vsquid:S1444"?Make this "public static thresholdExpertFoundation" field final(Œ©Ÿ”
+@squid:S1444")Make this "public static map" field final(ÖÅÆœ
+isquid:S2095Ù"LUse try-with-resources or close this "BufferedReader" in a "finally" clause.(ÉĞı¶øÿÿÿÿ
+hsquid:CommentedOutCodeLine‰"<This block of commented-out lines of code should be removed.(ôÿµëıÿÿÿÿ
+hsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(³×÷øÿÿÿÿ
+csquid:CommentedOutCodeLine“"<This block of commented-out lines of code should be removed.(õ“œÑ
+csquid:CommentedOutCodeLineœ"<This block of commented-out lines of code should be removed.(ƒÅÊÌ
+hsquid:CommentedOutCodeLine¤"<This block of commented-out lines of code should be removed.(™İŸ›ÿÿÿÿÿ
+csquid:CommentedOutCodeLine§"<This block of commented-out lines of code should be removed.(ë ş¬
+csquid:CommentedOutCodeLine·"<This block of commented-out lines of code should be removed.(ı§äš
+csquid:CommentedOutCodeLine„"<This block of commented-out lines of code should be removed.(•¨È
+csquid:CommentedOutCodeLine†"<This block of commented-out lines of code should be removed.(Êãü
+csquid:CommentedOutCodeLine‰"<This block of commented-out lines of code should be removed.(™åªÑ
+csquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(‹“—
+‚squid:S1319"kThe type of the "map" object should be an interface such as "Map" rather than the implementation "HashMap".(ÖÅÆœ
+Œsquid:S1319È"oThe return type of this method should be an interface such as "Map" rather than the implementation "Hashtable".(›ùŞçÿÿÿÿÿ
+ˆsquid:S1319Ö"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(˜‰ÆÄ
+squid:S1488ˆ"bImmediately return this expression instead of assigning it to the temporary variable "similarity".(ÕÁÅñøÿÿÿÿ
+Œ"squid:ClassVariableVisibilityCheck"YMake keywordWeight a static final constant or non-public and provide accessors if needed.(íØº¦şÿÿÿÿ
+„"squid:ClassVariableVisibilityCheck"VMake unitWeight a static final constant or non-public and provide accessors if needed.(½ıò
+“"squid:ClassVariableVisibilityCheck"`Make thresholdExpertPaper a static final constant or non-public and provide accessors if needed.(çÆïòûÿÿÿÿ
+“"squid:ClassVariableVisibilityCheck"eMake thresholdExpertFoundation a static final constant or non-public and provide accessors if needed.(Œ©Ÿ”
+}"squid:ClassVariableVisibilityCheck"OMake map a static final constant or non-public and provide accessors if needed.(ÖÅÆœ
+„"squid:ClassVariableVisibilityCheck"QMake paper a static final constant or non-public and provide accessors if needed.(ğ˜ºÛøÿÿÿÿ
+‰"squid:ClassVariableVisibilityCheck"VMake foundation a static final constant or non-public and provide accessors if needed.(ò¦ê¨ùÿÿÿÿ
+ˆ"squid:ClassVariableVisibilityCheck"UMake basicInfo a static final constant or non-public and provide accessors if needed.(ÜÊñ§ıÿÿÿÿ
+€"squid:ClassVariableVisibilityCheck "RMake patent a static final constant or non-public and provide accessors if needed.(û¸ÃÄ
+"squid:ClassVariableVisibilityCheck!"]Make softwareCopyright a static final constant or non-public and provide accessors if needed.(á¸ïáøÿÿÿÿ
+Gsquid:S1481<"+Remove this unused "author" local variable.(ûÅŸÑüÿÿÿÿ
+Jsquid:S1481C".Remove this unused "principal" local variable.(ÔŠáıÿÿÿÿ
+Ksquid:S1481J"/Remove this unused "expertName" local variable.(…¬ƒÆûÿÿÿÿ
+Dsquid:S1481q"-Remove this unused "expertId" local variable.(Ë¼»·
+Csquid:S1481q",Remove this unused "paperId" local variable.(Ë¼»·
+Bsquid:S1481q"+Remove this unused "fundId" local variable.(Ë¼»·
+Dsquid:S1481£"'Remove this unused "id" local variable.(º®„Ùùÿÿÿÿ
+@squid:S1481¥"(Remove this unused "sql" local variable.(ÿùÇ
+Bsquid:S1481¦"+Remove this unused "params" local variable.(ºÎ¸
+Zsquid:S1854J">Remove this useless assignment to local variable "expertName".(…¬ƒÆûÿÿÿÿ
+Ysquid:S1854C"=Remove this useless assignment to local variable "principal".(ÔŠáıÿÿÿÿ
+Vsquid:S1854<":Remove this useless assignment to local variable "author".(ûÅŸÑüÿÿÿÿ
+Ssquid:S1854t"<Remove this useless assignment to local variable "expertId".(°¹¿
+Xsquid:S1854w"<Remove this useless assignment to local variable "expertId".(„Œ‡µùÿÿÿÿ
+Ssquid:S1854z"<Remove this useless assignment to local variable "expertId".(¡ŸşÁ
+Qsquid:S1854¦":Remove this useless assignment to local variable "params".(ºÎ¸
+Osquid:S1854¥"7Remove this useless assignment to local variable "sql".(ÿùÇ
+Ssquid:S1854£"6Remove this useless assignment to local variable "id".(º®„Ùùÿÿÿÿ
+4squid:S2386"Make this member "protected".(ÖÅÆœ
+hsquid:S00117>"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆúß#
+nsquid:S00117E"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‰ûÔÌÿÿÿÿÿ
+nsquid:S1149º"VReplace the synchronized class "Hashtable" by an unsynchronized one such as "HashMap".(õğ¼é
+ssquid:S1149È"VReplace the synchronized class "Hashtable" by an unsynchronized one such as "HashMap".(›ùŞçÿÿÿÿÿ
+nsquid:S1149É"VReplace the synchronized class "Hashtable" by an unsynchronized one such as "HashMap".(ùŒù³

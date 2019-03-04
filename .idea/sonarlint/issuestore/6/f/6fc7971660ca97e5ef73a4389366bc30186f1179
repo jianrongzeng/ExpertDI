@@ -1,0 +1,18 @@
+
+^squid:S2095;"GUse try-with-resources or close this "Statement" in a "finally" clause.(Êë‹
+fsquid:S2095O"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(Ä×Óù
+fsquid:S2095%"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(Ä×Óù
+^squid:S2095"GUse try-with-resources or close this "Statement" in a "finally" clause.(Êë‹
+T
+squid:S106"9Replace this use of System.out or System.err by a logger.(™¤ÁÖûÿÿÿÿ
+T
+squid:S106+"9Replace this use of System.out or System.err by a logger.(™¤ÁÖûÿÿÿÿ
+T
+squid:S106>"9Replace this use of System.out or System.err by a logger.(ú—œ»þÿÿÿÿ
+T
+squid:S106U"9Replace this use of System.out or System.err by a logger.(ú—œ»þÿÿÿÿ
+Qsquid:S1118":Add a private constructor to hide the implicit public one.(ý’ºþ
+ksquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(°“‚Áûÿÿÿÿ
+ksquid:S00100!"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„çáäüÿÿÿÿ
+fsquid:S001007"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ýÿÞë
+fsquid:S00100K"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(öèÞÄ

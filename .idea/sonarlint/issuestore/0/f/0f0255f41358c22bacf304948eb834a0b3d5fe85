@@ -1,0 +1,17 @@
+
+7squid:S2068" Remove this hard-coded password.(Ü£ÇÊ
+<squid:S2068%" Remove this hard-coded password.(§Ÿ–›ûÿÿÿÿ
+jsquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(šã¤„
+osquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(£¥Ä˜üÿÿÿÿ
+jsquid:ModifiersOrderCheck"EReorder the modifiers to comply with the Java Language Specification.(Ýç¿á
+osquid:ModifiersOrderCheck	"EReorder the modifiers to comply with the Java Language Specification.(¿èè´ûÿÿÿÿ
+ksquid:S2095"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ÔŒôüÿÿÿÿ
+ksquid:S2095&"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ÔŒôüÿÿÿÿ
+Qsquid:S1118":Add a private constructor to hide the implicit public one.(¡Å—ä
+Ssquid:S1854:"7Remove this useless assignment to local variable "res".(ü¡éþÿÿÿÿ
+Zsquid:S1854D">Remove this useless assignment to local variable "pStatement".(ìœ¸Óúÿÿÿÿ
+?squid:S1148"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+?squid:S1148("#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+?squid:S11483"#Use a logger to log this exception.(ÃÁ êøÿÿÿÿ
+?squid:S1148="#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
+?squid:S1148G"#Use a logger to log this exception.(€ÉÔ…ýÿÿÿÿ
